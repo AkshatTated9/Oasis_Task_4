@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="server.js"></script>
+    <title>Authentication Page</title>
+</head>
+<script>
+    function showLogin() {
+    document.getElementById('loginFormContainer').style.display = 'block';
+    document.getElementById('signupFormContainer').style.display = 'none';
+}
+
+function showSignup() {
+    document.getElementById('loginFormContainer').style.display = 'none';
+    document.getElementById('signupFormContainer').style.display = 'block';
+}
+</script>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <button onclick="showLogin()">Login</button>
+            <button onclick="showSignup()">Sign Up</button>
+        </div>
+
+        <div id="loginFormContainer">
+            <form id="loginForm">
+                <h2>Login</h2>
+                <label for="loginUsername">Username:</label>
+                <input type="text" id="loginUsername" name="username" required>
+                
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" name="password" required>
+                
+                <button type="button" onclick="submitLogin()">Login</button>
+            </form>
+            <p id="loginMessage"></p>
+        </div>
+
+        <div id="signupFormContainer" style="display: none;">
+            <form id="signupForm">
+                <h2>Sign Up</h2>
+                <label for="signupUsername">Username:</label>
+                <input type="text" id="signupUsername" name="username" required>
+                
+                <label for="signupPassword">Password:</label>
+                <input type="password" id="signupPassword" name="password" required>
+                
+                <button type="button" onclick="submitSignup()">Sign Up</button>
+            </form>
+            <p id="signupMessage"></p>
+        </div>
+    </div>
+
+    
+</body>
+</html>
+<script>
+    
+
+function submitLogin() {
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+
+    fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    });
+}
+
+function submitSignup() {
+    const username = document.getElementById('signupUsername').value;
+    const password = document.getElementById('signupPassword').value;
+
+    fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    });
+}
+
+</script>
+
+<style>
+    body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #eaeaea; /* Light background color */
+  color: #333;
+}
+
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  background-color: #17202a; /* Dark Navy Blue */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  background-color: #0d141c; /* Darker Navy Blue */
+  padding: 15px;
+}
+
+.tabs button {
+  background-color: #1a2533; /* Slightly Darker Navy Blue */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.tabs button:hover {
+  background-color: #0d141c; /* Darker Navy Blue on hover */
+}
+
+form {
+  padding: 20px;
+}
+
+h2 {
+  color: #3498db; /* Accent color - lighter blue */
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #fff; /* White text for labels */
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  border: 1px solid #bdc3c7; /* Light gray border */
+  border-radius: 4px;
+}
+
+button {
+  background-color: #3498db; /* Accent color - lighter blue */
+  color: #fff;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #2673a8; /* Slightly darker blue on hover */
+}
+
+p {
+  margin-top: 15px;
+  color: #e74c3c; /* Red color for error messages */
+}
+
+</style>
